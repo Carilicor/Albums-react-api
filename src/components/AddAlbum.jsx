@@ -1,15 +1,15 @@
 import { useState } from 'react'
 
-export default function AddAlbum() {
+export default function AddAlbum({ setToggle, toggle }) {
     const [album, setAlbum] = useState('')
     const [artist, setArtist] = useState('')
     const [year, setYear] = useState(1970)
     const handleSubmit = (e) => {
         e.preventDefault()
         //lets check to see that all data was entered: 
-        if(!album || !artist) {
+        if (!album || !artist) {
             alert('Please enter all infor')
-            return 
+            return
         }
         const newAlbum = { artist, "album title": album, year }
         fetch('https://albums-api-cgl.web.app/albums', {
@@ -19,12 +19,13 @@ export default function AddAlbum() {
             },
             body: JSON.stringify(newAlbum)
         })
-        .then(() => {
-            //assume it worked...
-            setAlbum('')
-            setArtist('')
-            setYear(1970)
-        })
+            .then(() => {
+                //assume it worked...
+                setToggle(!toggle)
+                setAlbum('')
+                setArtist('')
+                setYear(1970)
+            })
             .catch(alert)
     }
     return (
